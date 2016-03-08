@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
+  enum roles: [:guest, :user, :admin]
 
-  enum roles: [:admin, :user, :guest]
+  validates :username, uniqueness: true
 
 end
