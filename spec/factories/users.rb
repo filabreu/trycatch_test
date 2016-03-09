@@ -2,16 +2,16 @@ FactoryGirl.define do
   factory :user do
     username "user"
     password "password"
-    role 1
+    role :user
 
     factory :guest do
       username "guest"
-      role 0
+      role :guest
     end
 
     factory :admin do
       username "admin"
-      role 3
+      role :admin
     end
   end
 end
