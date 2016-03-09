@@ -1,4 +1,4 @@
-class BarController < ApplicationController
+class FoosController < ApplicationController
 
   before_action :authenticate
 

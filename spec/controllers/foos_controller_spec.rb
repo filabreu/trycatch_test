@@ -1,12 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe FooController, type: :controller do
-
-  let!(:guest) { create(:guest) }
-
-  let!(:user) { create(:user) }
-
-  let!(:admin) { create(:admin) }
+RSpec.describe FoosController, type: :controller do
 
   describe "GET #index" do
     it_behaves_like 'authenticated action', :post, :create, { foo_id: 1 }

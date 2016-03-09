@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe BarController, type: :controller do
+RSpec.describe BarsController, type: :controller do
 
   let!(:guest) { create(:guest) }
 
