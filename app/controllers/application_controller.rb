@@ -26,4 +26,15 @@ class ApplicationController < ActionController::Base
         user && user.authenticate(password)
       end
     end
+
+    def self.authorize_action(actions, roles)
+      roles = roles.map { |r| r.to_sym }
+
+      append_before_filter(only: actions) do
+        unless current_user && roles.include?(current_user.role.to_sym)
+          request_http_basic_authentication
+        end
+      end
+    end
+
 end

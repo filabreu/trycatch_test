@@ -2,6 +2,10 @@ class BarsController < ApplicationController
 
   before_action :authenticate
 
+  authorize_action [:index, :show], [:admin, :user, :guest]
+  authorize_action [:create, :update, :destroy], [:admin, :user]
+
+
   def index
     head :ok
   end
