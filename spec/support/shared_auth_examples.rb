@@ -1,11 +1,5 @@
 shared_examples "authenticated action" do |method, action, attributes = {}|
 
-  let!(:guest) { create(:guest) }
-
-  let!(:user) { create(:user) }
-
-  let!(:admin) { create(:admin) }
-
   context "without username and password" do
     it "should deny access to " do
       send(method, action, attributes)
