@@ -37,4 +37,15 @@ class ApplicationController < ActionController::Base
       end
     end
 
+    def role_scope(relation, param, chain = nil)
+      chain ||= current_user if current_user.user?
+      scope = chained_scope(relation, param, chain).find(param)
+
+      scope ? scope : request_http_basic_authentication
+    end
+
+    def chained_scope(relation, param, chain = nil)
+      chain ? chain.send(relation) : relation.to_s.classify.constantize
+    end
+
 end
