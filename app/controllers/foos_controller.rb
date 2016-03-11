@@ -10,29 +10,39 @@ class FoosController < ApplicationController
   def index
     @foos = Foo.all
 
-    head :ok
+    render json: @foos
   end
 
   def show
     @foo = Foo.find(params[:id])
 
-    head :ok
+    render json: @foo
   end
 
   def create
     @foo = current_user.foos.build(foo_params)
 
-    head :ok
+    if @foo.save
+      render json: @foo
+    else
+      render json: @foo.errors, status: :unprocessable_entity
+    end
   end
 
   def update
     @foo = role_scope(:foos, params[:id])
 
-    head :ok
+    if @foo.update(foo_params)
+      render json: @foo
+    else
+      render json: @foo.errors, status: :unprocessable_entity
+    end
   end
 
   def destroy
     @foo = role_scope(:foos, params[:id])
+
+    @foo.destroy
 
     head :ok
   end

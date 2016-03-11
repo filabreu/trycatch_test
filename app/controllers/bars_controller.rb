@@ -13,33 +13,43 @@ class BarsController < ApplicationController
     @foo = Foo.find(params[:foo_id])
     @bars = @foo.bars
 
-    head :ok
+    render json: @bars
   end
 
   def show
     @foo = Foo.find(params[:foo_id])
     @bar = @foo.bars.find(params[:id])
 
-    head :ok
+    render json: @bar
   end
 
   def create
     @foo = role_scope(:foos, params[:foo_id])
     @bar = @foo.bars.build(bar_params)
 
-    head :ok
+    if @bar.save
+      render json: @bar, status: :created
+    else
+      render json: @bar.errors, status: :unprocessable_entity
+    end
   end
 
   def update
     @foo = role_scope(:foos, params[:foo_id])
     @bar = role_scope(:bars, params[:id], @foo)
 
-    head :ok
+    if @bar.update(bar_params)
+      render json: @bar
+    else
+      render json: @bar.errors, status: :unprocessable_entity
+    end
   end
 
   def destroy
     @foo = role_scope(:foos, params[:foo_id])
     @bar = role_scope(:bars, params[:id], @foo)
+
+    @bar.destroy
 
     head :ok
   end

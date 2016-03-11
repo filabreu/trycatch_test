@@ -30,7 +30,7 @@ shared_examples "authenticated action" do |method, action, attributes = {}|
     it "should allow access" do
       send(method, action, attributes)
 
-      expect(response).to have_http_status(:ok)
+      expect(response).to have_http_status(:success)
     end
   end
 
