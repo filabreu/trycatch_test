@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user
 
+  rescue_from ActiveRecord::RecordNotFound, :with => :not_found_status
+
   def current_user
     @current_user
   end
@@ -39,13 +41,17 @@ class ApplicationController < ActionController::Base
 
     def role_scope(relation, param, chain = nil)
       chain ||= current_user if current_user.user?
-      scope = chained_scope(relation, param, chain).find(param)
+      scope = chained_scope(relation, chain).find(param)
 
       scope ? scope : request_http_basic_authentication
     end
 
-    def chained_scope(relation, param, chain = nil)
+    def chained_scope(relation, chain = nil)
       chain ? chain.send(relation) : relation.to_s.classify.constantize
+    end
+
+    def not_found_status
+      head(:not_found)
     end
 
 end
